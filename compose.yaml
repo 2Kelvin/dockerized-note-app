@@ -1,0 +1,11 @@
+services:
+  react_build_app:
+    build: ./frontend # build react app image using Dockerfile in frontend folder
+    ports:
+      - 3000:3000
+  express-api:
+    build: ./backend # build expressjs api image using the Dockerfile in the backend folder
+    ports:
+      - 5000:5000
+    volumes:
+      - all-notes:./data/

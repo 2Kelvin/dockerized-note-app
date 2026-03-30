@@ -1,11 +1,18 @@
 services:
-  react_build_app:
-    build: ./frontend # build react app image using Dockerfile in frontend folder
-    ports:
-      - 3000:3000
   express-api:
     build: ./backend # build expressjs api image using the Dockerfile in the backend folder
     ports:
       - 5000:5000
     volumes:
-      - all-notes:./data/
+      - all-notes:/notes-app-backend/data/
+
+  react_build_app:
+    depends_on:
+      - express-api # run the backend API first
+    build: ./frontend # build react app image using Dockerfile in frontend folder
+    ports:
+      - 3000:3000
+
+# volumes registry: all docker managed named volumes here
+volumes:
+  all-notes:

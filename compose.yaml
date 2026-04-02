@@ -29,22 +29,21 @@ services:
       - "5000:5000"
     environment:
       NODE_ENV: production
-      REDIS_URL: redis://redis:6379
+      REDIS_URL: redis://redis:6379 # used redis container hostname
       DB_USER: user1
       DB_NAME: notes_db
       DB_HOST: postgres_db
       DB_PORT: 5432
-      DB_PASSWORD: /run/secrets/database_password
-    secrets:
+    secrets: # mounts the password at /run/secrets/database_password to be read by getDatabasePassword() function
       - database_password
 
   # react build container
-  react-build-frontend:
+  nginx_web_server:
     depends_on:
       - express_api
     build: ./frontend
     ports:
-      - "3000:3000"
+      - "8080:80"
 
 secrets:
   database_password:
